@@ -300,10 +300,41 @@
         "padding-block-start": 48,
         "padding-block-end": 48
       }
+    },
+    "promotions_group_XQrbbC": {
+      "type": "promotions-group",
+      "blocks": {
+        "promotion_EwL8fA": {
+          "type": "promotion",
+          "settings": {
+            "title": "Promotion 1",
+            "title_alignment_sec": "center",
+            "image": "shopify://shop_images/Main_b13ad453-477c-4ed1-9b43-81f3345adfd6.jpg"
+          }
+        },
+        "promotion_cpVpUw": {
+          "type": "promotion",
+          "settings": {
+            "title": "Promotion 2",
+            "title_alignment_sec": "center",
+            "image": "shopify://shop_images/Main_d624f226-0a89-4fe1-b333-0d1548b43c06.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "promotion_EwL8fA",
+        "promotion_cpVpUw"
+      ],
+      "name": "Promotions Group",
+      "settings": {
+        "title": "Promotion Section",
+        "title_alignment": "center"
+      }
     }
   },
   "order": [
     "hero_jVaWmY",
-    "product_list_fa6P9H"
+    "product_list_fa6P9H",
+    "promotions_group_XQrbbC"
   ]
 }
