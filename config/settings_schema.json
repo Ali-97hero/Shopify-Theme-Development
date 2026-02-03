@@ -2284,5 +2284,15 @@
         "default": "equal-width-buttons"
       }
     ]
+  },
+  {
+    "name": "Tutorial",
+    "settings": [
+      {
+        "type": "text",
+        "label": "Promotion",
+        "id": "promotion_name"
+      }
+    ]
   }
 ]
