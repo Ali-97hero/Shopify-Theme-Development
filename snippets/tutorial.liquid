@@ -1,0 +1,318 @@
+{% comment %}
+  {% comment %} Basic Stuff {% endcomment %}
+
+  {% assign myString = 'This is a string' %}
+  {{ myString }}
+  {% assign myNumber = 10 %}
+  {{ myNumber }}
+  <br>
+
+  {% comment %} Array {% endcomment %}
+
+  {{ product.tags[0] }}
+  {{ product.tags.size }}
+  <br>
+  {% for tag in product.tags %}
+    {{ tag }}
+    <br>
+  {% endfor %}
+  <br>
+  {% comment %} Object {% endcomment %}
+
+  <p>{{ product.title }}</p>
+
+  {% comment %} Capture {% endcomment %}
+
+  {% capture html %}
+    <div>The product title is: {{ product.title }}</div>
+  {% endcapture %}
+  {% comment %} Conditionals  {% endcomment %}
+  {% if myNumber > 5 %}
+    <p>myNumber is greater then 5</p>
+  {% else %}
+    <p>myNumber is not greater then 5</p>
+  {% endif %}
+  {% if myString == 'This is a string' %}
+    <p>true</p>
+  {% endif %}
+  {% if product.tag contains 'Snowboard' %}
+    <p>This is a Snowboard</p>
+  {% endif %}
+
+  {% comment %} Unless {% endcomment %}
+
+  {% if product.tags %}
+    {% unless product.tags contains 'Premium' %}
+      <p>This product doesn't contain any Premium tag</p>
+    {% else %}
+      <p>This product does contain Premium tag</p>
+    {% endunless %}
+  {% endif %}
+
+  {% comment %} Logical operators {% endcomment %}
+
+  {% comment %}
+    if product.tags contains 'Snowboard' or product.type = 'snowboard' and product.price < 65000
+    if product.tags contains 'Snowboard' or product.type = 'snowboard' and false
+    if product.tags contains 'Snowboard' or true' and false
+    if product.tags contains 'Snowboard' or false
+    true or false
+    false
+  {% endcomment %}
+  {% if product.tags contains 'Snowboard' and product.price < 65000 %}
+    <p>This product is cheaper</p>
+  {% endif %}
+  {% if product.tags contains 'Snowboard' or product.price < 65000 %}
+    <p>This product is cheaper</p>
+  {% endif %}
+
+  {% comment %} Case {% endcomment %}
+
+  {% if product.type != blank %}
+    {% case product.type %}
+      {% when 'snowboard' %}
+        <p>This is a snowboard</p>
+    {% endcase %}
+  {% endif %}
+
+  {% comment %} Looping {% endcomment %}
+
+  {% for product in collection.products limit: 5 offset: 2 %}
+    <p
+      style="
+            {% if forloop.first %}
+        color: green
+        {% elsif forloop.last %}
+         color: red
+        {% endif %}
+      "
+    >
+      {% comment %}     {{ forloop.index }} - {{ product.title }} {% endcomment %}
+      {{ forloop.index0 }} - {{ product.title }}
+    </p>
+    {% if product.tags.size > 0 %}
+      <h1>Tags</h1>
+      {% for tag in product.tags %}
+        {% if tag == 'Sport' %}
+          {% comment %} {% break %}  {% endcomment %}
+          {% continue %}
+        {% endif %}
+        <li>Product index: {{ forloop.parentloop.index }} | Tags: {{ tag }}</li>
+      {% endfor %}
+    {% endif %}
+  {% endfor %}
+
+  {% if collection.products.size == 0 %}
+    <p>This Collection is empty</p>
+  {% endif %}
+
+  {% comment %} Repeating  {% endcomment %}
+
+  {% for i in (1..5) %}
+    <p>Hello World {{ i }}</p>
+  {% endfor %}
+
+  {% comment %} Paginate {% endcomment %}
+
+  {% paginate collection.products by 5 %}
+    {% for product in collection.products %}
+      <p>{{ product.title }}</p>
+    {% endfor %}
+    {{ paginate | default_pagination }}
+  {% endpaginate %}
+{% endcomment %}
+
+{% comment %} Number Filters {% endcomment %}
+
+{% comment %}
+  {% assign myNumber = '10' %}
+  {% comment %} {% assign myNewNumber = myNumber | plus: 5 %} {% endcomment %}
+  {% comment %} {% assign myNewNumber = myNumber | minus: 5 %} {% endcomment %}
+  {% comment %} {% assign myNewNumber = myNumber | times: 5 %} {% endcomment %}
+  {% comment %} {% a ssign myNewNumber = myNumber | divided_by: 3 %} {% endcomment %}
+  {% assign myNewNumber = myNumber | plus: 0 %}
+  {{ myNewNumber }}
+  {% if myNewNumber > 5 %}
+    <p>This is greater then 5</p>
+  {% endif %}
+  {% assign moduleofmyNewNumber = myNewNumber | modulo: 2 %}
+  {% if moduleofmyNewNumber == 0 %}
+    <p>Even</p>
+  {% else %}
+    <p>Odd</p>
+  {% endif %}
+  {% assign myAbsvalue = -11 | abs %}
+  <p>{{ myAbsvalue }}</p>
+  {% assign myRoundedNumber = 10.4 | round %}
+  <p>{{ myRoundedNumber }}</p>
+  {% assign myRoundedNumber = 10.5 | floor %}
+  <p>{{ myRoundedNumber }}</p>
+  {% assign myRoundedNumber = 10.4 | ceil %}
+  <p>{{ myRoundedNumber }}</p>
+
+  {% assign myatmostValue = 500 | at_most: 500 %}
+  <p>{{ myatmostValue }}</p>
+  {% assign myatleastValue = 50 | at_least: 60 %}
+  <p>{{ myatleastValue }}</p>
+{% endcomment %}
+
+{% comment %} String Filters {% endcomment %}
+
+{% comment %}
+  {% assign a = 'Hello World' %}
+  <p>{{ a | upcase }}</p>
+  <p>{{ a | downcase }}</p>
+  <p>{{ a | capitalize }}</p>
+  {% assign b = ' Some extra appended text from another variable' %}
+  <p>{{ a | append: b | capitalize }}</p>
+
+  {% assign c = 'Some text with whitespace     ' %}
+  <p>{{ c | strip | append: '!' }}</p>
+
+  {% assign d = "<p style=' color: red '>Hello this is some text</p>" %}
+  {{ d | strip_html }}
+  {{ d | strip_html | truncate: 35 }}
+  {% assign e = 'This is some very long text that will be trimmed' %}
+  <p>{{ e | truncatewords: 5 }}</p>
+
+  {% assign f = '
+    Line one
+    Line two
+    Line three
+    ' | newline_to_br %}
+  {{ f }}
+
+  {% assign g = 'Hello some extra text some extra text' %}
+
+  <p>{{ g | replace: 'text', 'string' }}</p>
+  <p>{{ g | replace_first: 'text', 'string' }}</p>
+  <p>{{ g | replace_last: 'text', 'string' }}</p>
+  <p>{{ g | remove: 'text' }}</p>
+{% endcomment %}
+
+{% comment %} Split Filter (Array maker) {% endcomment %}
+
+{% comment %}
+  {% assign h = 'html|orange,css|blue,javascipt|yellow' | split: ',' %}
+  {% for language in h %}
+    {% assign languageName = language | split: '|' | first %}
+    {% assign languageColor = language | split: '|' | last %}
+
+    <p style="color: {{ languageColor }}">{{ languageName }}</p>
+  {% endfor %}
+{% endcomment %}
+
+{% comment %} Map Filter {% endcomment %}
+
+{% comment %}
+  {% assign products = collection.products %}
+  {% assign productTitle = products | map: 'title' %}
+  {% comment %} <p>{{ productTitle | append: ',' }}</p> {% endcomment %}
+  <p>{{ productTitle | join: ' - ' }}</p>
+  <p>{{ productTitle | first }}</p>
+  <p>{{ productTitle | last }}</p>
+  <p>{{ productTitle | size }}</p>
+
+  {% for title in productTitle %}
+    <p>{{ title }}</p>
+  {% endfor %}
+{% endcomment %}
+
+{% comment %} Money and Sort Filter {% endcomment %}
+
+{% comment %}
+  {% assign SortedPrice = products | sort: 'price' %}
+  {% for product in SortedPrice %}
+    <p>{{ product.title }} - {{ product.price | money }}</p>
+  {% endfor %}
+
+  {% assign allPrices = products | map: 'price' | sort %}
+  {% for price in allPrices %}
+    <p>{{ price | money }}</p>
+  {% endfor %}
+  {% assign sumofallprices = allPrices | sum %}
+  <p>{{ sumofallprices | money }}</p>
+
+  {% comment %} Where Fitler {% endcomment %}
+  {% assign snowboard = products | where: 'title', 'The Complete Snowboard' | first %}
+  <p>{{ snowboard.title }} - {{ snowboard.price | money }}</p>
+  {% assign tags = '' %}
+  {% for product in products %}
+    {% for tag in product.tags %}
+      <p>{% assign tags = tags | append: tag | append: '  ' %}</p>
+    {% endfor %}
+  {% endfor %}
+  <p>{{ tags | split: '  ' | uniq | join: ' ' }}</p>
+{% endcomment %}
+
+{% comment %} Json Filter {% endcomment %}
+
+{% comment %}
+  <p>{{ collection.description | default: 'This is a default description' }}</p>
+  <p>{{ 'This is some text and some more text' | highlight: 'text' }}</p>
+{% endcomment %}
+
+{% comment %} Date Filter {% endcomment %}
+
+{% comment %} <p>Copyright {{ 'now' | date: '%Y-%m-%d' }}</p> {% endcomment %}
+
+{% comment %} Colors {% endcomment %}
+
+{% comment %}
+  <style>
+    .swatch {
+      width: 30px;
+      height: 30px;
+      border: 1px solid black;
+      border-radius: 100%;
+      display: block !important;
+    }
+  </style>
+  {% assign backgroundColor1 = '#000000' %}
+  <p class="swatch" style="background: {{ backgroundColor1 | color_lighten: 50 }}"></p>
+  {% assign backgroundColor2 = '#ffffff' %}
+  <p class="swatch" style="background: {{ backgroundColor2 | color_darken: 50 }}"></p>
+  <p class="swatch" style="background: {{ backgroundColor1 | color_mix: backgroundColor2 , 0 }}"></p>
+  {% assign color1 = 'rgb(0, 255, 0)' %}
+  <p>{{ color3 | color_to_hsl }}</p>
+{% endcomment %}
+
+{% comment %}  Image Filter {% endcomment %}
+
+{% comment %}
+  {{ collection.products.first.featured_image | image_url: width: 100px , height: 100px | image_tag }}
+  <img src="{{ 'icon.shopify.svg' | asset_img_url: '100x100'}}" alt="Shopify Theme Icon" width="100px" height="100px">
+{% endcomment %}
+
+{% comment %} Linking CSS and JAVASCRIPT {% endcomment %}
+{% comment %}
+  {{ 'tutorial.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'tutorial.js' | asset_url }}" type="module" defer></script>
+
+  {% comment %} Liquid Tag {% endcomment %}
+  {% liquid
+    assign myVariable = 'This is a string'
+
+    for product in collection.products
+      echo '<p>' | append: product.title | append: '</p>'
+    endfor
+  %}
+  <p>{{ myVariable }}</p>
+{% endcomment %}
+
+{% comment %} Render Tags {% endcomment %}
+
+{% comment %}
+  <p>{{ tutorial }}</p>
+  <p>{{ title }}</p>
+  {% assign title = title | default: 'This is a default title' %}
+{% endcomment %}
+
+{% comment %} Debugging {% endcomment %}
+
+{% comment %}
+  {{ collection.products.first | json }}
+  <script>
+    console.log({{ collection.products.last | json   }})
+  </script>
+{% endcomment %}
