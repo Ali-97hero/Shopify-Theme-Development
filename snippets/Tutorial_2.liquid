@@ -1,0 +1,22 @@
+{% comment %} Find Filter {% endcomment %}
+{% assign heading_block = section.blocks | find: 'type', 'heading' %}
+<p>{{ heading_block.settings.heading }}</p>
+{% comment %} only gives the first value {% endcomment %}
+
+{% comment %} Find Index Filter {% endcomment %}
+{% assign heading_block_index = section.blocks | find_index: 'type', 'heading' %}
+<p>{{ heading_block_index.settings.heading }}</p>
+{% comment %} This will give zero but if there is a button and its at third place then the index would be 2  {% endcomment %}
+
+{% comment %} Has Filter {% endcomment %}
+{{ section.blocks | has: 'type', 'heading' }}
+{% comment %} This'll return true because it does contain the heading type else wise it wouldve been false {% endcomment %}
+
+{% comment %} Reject Filter {% endcomment %}
+{% assign rejected_block = section.blocks | reject: 'type', 'heading' %}
+<p>{{ rejected_block.size }}</p>
+{% comment %}
+  This will return the value of 2 bucz out of 5 the remaining three type
+  does contain heading and so the reject filter rejects them and it can also return true
+  or false value
+{% endcomment %}
