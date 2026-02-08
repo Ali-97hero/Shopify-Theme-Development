@@ -1,0 +1,94 @@
+<div class="personal-header" style="margin-bottom: 20px;">
+  <h1 style="text-align: {{ section.settings.header_alignment }}">{{ section.settings.header_title }}</h1>
+</div>
+<div style="display: flex; justify-content: center; gap: 20px; padding-bottom: 20px;">
+  {% for block in section.blocks %}
+    {% if block.type == 'personal_header' %}
+      <div style="display: flex; flex-direction: column; gap: 10px; ">
+        <h3 style="text-align: {{ block.settings.header_block_alignment }} ">{{ block.settings.block_title }}</h3>
+        {{ block.settings.block_image | image_url: width: 1500, height: 1500 | image_tag }}
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+
+{% schema %}
+{
+  "name": "Personal Header Group",
+  "tag": "section",
+  "class": "my-header-class",
+  "settings": [
+    {
+      "type": "text",
+      "label": "Header Title",
+      "id": "header_title"
+    },
+
+    {
+      "type": "select",
+      "label": "Header Alignment",
+      "id": "header_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "personal_header",
+      "name": "Header blocks",
+
+      "settings": [
+        {
+          "type": "text",
+          "label": "Title",
+          "id": "block_title"
+        },
+
+        {
+          "type": "select",
+          "label": "Header Block Alignment",
+          "id": "header_block_alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "image_picker",
+          "label": "Image",
+          "id": "block_image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Personal Header"
+    }
+  ]
+}
+{% endschema %}
