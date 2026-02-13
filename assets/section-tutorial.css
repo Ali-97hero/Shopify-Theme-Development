@@ -1,0 +1,27 @@
+.section-tutorial {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    gap: 10px;
+
+}
+ .shopify-section-tutorial {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+.image_picker-container {
+    border: 1px solid #e5e5e5;
+    padding: 0.5rem;
+    max-width: 400px;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: auto;
+    overflow: hidden;
+}
+.text_picker_container {
+    font-size: 1.2rem;
+}
+ 

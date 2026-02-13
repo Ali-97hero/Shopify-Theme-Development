@@ -1,0 +1,1 @@
+console.log('This is the section tutorial JavaScript file. It is included in the section-tutorial.liquid file.');

@@ -1,0 +1,599 @@
+{{ 'section-tutorial.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'section-tutorial.js' | asset_url }}" defer></script>
+{% comment %}
+  <style>
+    #shopify-section-{{ section.id }} {
+      background: {{ section.settings.background-color-setting }};
+    }
+  </style>
+{% endcomment %}
+{% comment %}
+  {% comment %} Section {% endcomment %}
+
+  <h3>Text Setting</h3>
+  <p>{{ section.settings['text-setting'] }}</p>
+
+  <h3>Textarea Setting</h3>
+  <p>{{ section.settings['textarea-setting'] | newline_to_br }}</p>
+
+  <h3>Rich Text Setting</h3>
+  <div>{{ section.settings['richtext-setting'] }}</div>
+
+  <h3>Inline Rich Text Setting</h3>
+  <div>{{ section.settings['inline-richtext-setting'] }}</div>
+
+  {% if section.settings['number-setting'] > 0 %}
+    <h3>Number Setting</h3>
+    <p>{{ section.settings['number-setting'] }}</p>
+  {% endif %}
+  <h3>Range Setting</h3>
+  <p>{{ section.settings['range-setting'] }}</p>
+
+  <h3>Select Setting</h3>
+  <p>{{ section.settings['select-setting'] }}</p>
+
+  <h3>Checkbox Setting</h3>
+  {% if section.settings['checkbox-setting'] == true %}
+    <p>Checkbox is checked.</p>
+  {% else %}
+    <p>Checkbox is unchecked.</p>
+  {% endif %}
+
+  <h3>Radio Setting</h3>
+  {% if section.settings['radio-setting'] == 'option-1' %}
+    <p>Radio setting is Option 1.</p>
+  {% else %}
+    <p>Radio setting is Option 2.</p>
+  {% endif %}
+
+  <h3>Color Setting</h3>
+  <p style="color : {{ section.settings.color-setting }}">
+    {{ section.settings['color-setting'] }}, {{ section.settings['color-setting'].lightness }}
+  </p>
+
+  <div style="background: {{ section.settings.color-background-setting }}">
+    <h3>Color Background Setting</h3>
+    <p style="color: white">
+      {{ section.settings['color-background-setting'] }}
+    </p>
+  </div>
+
+  {% if section.settings['image-picker-setting'] %}
+    <h3>Image Picker Setting</h3>
+    <div style="width: 200px; height: 300px; overflow: hidden;">
+      {{ section.settings['image-picker-setting'] | img_url: width: 400, height: 400 | img_tag }}
+    </div>
+  {% endif %}
+
+  {% if section.settings['video-setting'] %}
+    <h3>Video Setting</h3>
+    <div style="width: 400px; height: 300px; overflow: hidden;">
+      {{
+        section.settings['video-setting']
+        | video_tag:
+          controls: true,
+          autoplay: false,
+          loop: false,
+          muted: false,
+          style: 'width: 100%; height: 100%; object-fit: cover;'
+      }}
+    </div>
+  {% endif %}
+
+  <div>
+    <h3>External Video URL Setting</h3>
+    <iframe
+      width="300px"
+      height="auto"
+      title="A Youtube Video"
+      src="https://www.youtube.com/embed/{{ section.settings['video-url-setting']  }}"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in"
+      allowfullscreen
+    ></iframe>
+  </div>
+
+  {% if section.settings['url-setting'] %}
+    <h3>URL Setting</h3>
+    <p>
+      <a href="{{ section.settings['url-setting'] }}">The URL Link</a>
+    </p>
+  {% endif %}
+
+  <h3>HTML Setting</h3>
+  <div style="background-color: #e5eeee">
+    {{ section.settings['html-setting'] }}
+  </div>
+
+  <h3>Liquid Setting</h3>
+  <div>
+    {{ section.settings['liquid-setting'] | newline_to_br }}
+  </div>
+
+  <h3>Product Setting</h3>
+  {% assign product = section.settings['product-setting'] %}
+  {% if product %}
+    <p>Selected product: {{ product.title }}</p>
+    <p>Price: {{ product.price | money }}</p>
+    <p>Vendor: {{ product.vendor }}</p>
+    <p>
+      Product URL: <a href="{{ product.url }}">{{ product.url }}</a>
+    </p>
+  {% else %}
+    <p>No product selected.</p>
+  {% endif %}
+
+  <h3>Product List Setting</h3>
+  {% assign product_list = section.settings['product-list-setting'] %}
+  {% if product_list.size > 0 %}
+    <ul>
+      {% for product in product_list %}
+        <li>{{ product.handle }} | {{ product.title }} - {{ product.price | money }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No products selected.</p>
+  {% endif %}
+
+  <h3>Collection Setting</h3>
+  {% assign collection = section.settings['collection-setting'] %}
+  {% if collection.size > 0 %}
+    <p>Selected collection: {{ collection.title }}</p>
+    <p>Collection Products Count: {{ collection.products_count }}</p>
+    <p>
+      Collection URL: <a href="{{ collection.url }}">{{ collection.url }}</a>
+    </p>
+    <ul>
+      {% for product in collection.products %}
+        <li>{{ product }} | {{ product.title }} - {{ product.price | money }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No collection selected.</p>
+  {% endif %}
+
+  <h3>Collection List Setting</h3>
+  {% assign collection_list = section.settings['collection-list-setting'] %}
+  {% if collection_list.size > 0 %}
+    <ul>
+      {% for collection in collection_list %}
+        <li>{{ collection }} | {{ collection.title }} - {{ collection.products.size }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No collections selected.</p>
+  {% endif %}
+
+  {% assign page = section.settings['page-setting'] %}
+  {% if page.size > 0 %}
+    <h3>Page Setting</h3>
+    <p>Selected page: {{ page.title }}</p>
+    <div>{{ page.content }}</div>
+  {% else %}
+    <p>No page selected.</p>
+  {% endif %}
+
+  {% assign blog = section.settings['blog-setting'] %}
+  {% if blog.size > 0 %}
+    <h3>Blog Setting</h3>
+    <p>Selected blog: {{ blog.title }}</p>
+    <p>Blog Articles Count: {{ blog.articles_count }}</p>
+    <p>
+      Blog URL: <a href="{{ blog.url }}">{{ blog.url }}</a>
+    </p>
+  {% else %}
+    <p>No blog selected.</p>
+  {% endif %}
+
+  {% assign article = section.settings['article-setting'] %}
+  {% if article.size > 0 %}
+    <h3>Article Setting</h3>
+    <p>Selected article: {{ article.title }}</p>
+    <p>Published on: {{ article.published_at | date: '%B %d, %Y' }}</p>
+    <div>{{ article.content }}</div>
+  {% else %}
+    <p>No article selected.</p>
+  {% endif %}
+
+  {% assign link_list = section.settings['link-list-setting'] %}
+  {% if link_list.size > 0 %}
+    <h3>Link List Setting</h3>
+    <ul>
+      {% for link in link_list.links %}
+        <li>
+          <a href="{{ link.url }}">{{ link.title }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No link list selected.</p>
+  {% endif %}
+
+  <h3 style="text-align: {{ section.settings['text-alignment-setting'] }}">Text Alignment Setting</h3>
+  <p style="text-align: {{ section.settings['text-alignment-setting'] }}">
+    {{ section.settings['text-alignment-setting'] }}
+  </p>
+
+  <h3>Font Picker Setting</h3>
+  <p>
+    {{ section.settings['font-picker-setting'] }}
+  </p>
+  <style>
+    {{ section.settings['font-picker-setting'] | font_face : font_display: 'swap' }}
+    .section-tutorial * {
+      font-family: {{ section.settings['font-picker-setting'].family }};
+    }
+  </style>
+{% endcomment %}
+{% comment %} Blocks {% endcomment %}
+{% comment %} {% assign Product = section.blocks | where: 'type', 'section_product' %} {% endcomment %}
+{% comment %} {% assign Collection = section.blocks | where: 'type', 'section_collection' %} {% endcomment %}
+{% comment %}
+  <div class="section-tutorial__internal" style="--primary-color: {{ section.settings.color-setting }}">
+  <button>Click Me</button>
+  </div>
+{% endcomment %}
+{% for block in section.blocks %}
+  {% if block.type == 'section_product' %}
+    {% assign product = block.settings.product %}
+    {% if product.size > 0 %}
+      {% assign title = block.settings.title | default: product.title %}
+      {% assign image = block.settings.image | default: product.featured_image %}
+    {% else %}
+      <p>No Product Selected.</p>
+    {% endif %}
+  {% elsif block.type == 'section_collection' %}
+    {% assign collection = block.settings.collection %}
+    {% if collection.size > 0 %}
+      {% assign title = block.settings.title | default: collection.title %}
+      {% assign image = block.settings.image | default: collection.featured_image %}
+    {% else %}
+      <p>No Collection Selected.</p>
+    {% endif %}
+  {% endif %}
+  <div {{ block.shopify_attributes }} class="shopify-section-tutorial">
+    {% if image %}
+      <div class="image_picker-container">
+        {{ image | image_url: width: 400, height: 400 | image_tag }}
+      </div>
+    {% endif %}
+    <p style="--primary-color: {{ section.settings.color-setting }}" class="text_picker_container">{{ title }}</p>
+  </div>
+{% endfor %}
+{% comment %} This shows the section Id {% endcomment %}
+{% comment %} <p>{{ section.id }}</p> {% endcomment %}
+{% comment %}
+  {% if request.design_mode %}
+    <p>This is from the theme editor.</p>
+  {% endif %}
+{% endcomment %}
+{% schema %}
+{
+  "name": "Section Tutorial",
+  "tag": "section",
+  "class": "section-tutorial",
+  "limit": 2,
+  "disabled_on": {
+    "templates": ["collection"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "text-setting",
+      "label": "Text Setting",
+      "default": "This is a text setting.",
+      "info": "This is a helpful info message for the theme setting.",
+      "placeholder": "This is a placeholder"
+    },
+    {
+      "type": "textarea",
+      "id": "textarea-setting",
+      "label": "Textarea Setting",
+      "placeholder": "This is a placeholder"
+    },
+    {
+      "type": "richtext",
+      "id": "richtext-setting",
+      "label": "Rich Text Setting",
+      "default": "<p>This is a <strong>rich text</strong> setting.</p>"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "inline-richtext-setting",
+      "label": "Inline Rich Text Setting",
+      "default": "This is an <strong>inline rich text</strong> setting."
+    },
+    {
+      "type": "number",
+      "id": "number-setting",
+      "label": "Number Setting",
+      "default": 1,
+      "placeholder": "Number Setting"
+    },
+    {
+      "type": "range",
+      "id": "range-setting",
+      "label": "Range Setting",
+      "default": 50,
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "select-setting",
+      "label": "Select Setting",
+      "options": [
+        {
+          "value": "value-1",
+          "label": "Value 1",
+          "group": "Group 1"
+        },
+        {
+          "value": "value-2",
+          "label": "Value 2",
+          "group": "Group 1"
+        },
+        {
+          "value": "value-3",
+          "label": "Value 3",
+          "group": "Group 1"
+        },
+        {
+          "value": "value-4",
+          "label": "Value 4",
+          "group": "Group 2"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "checkbox-setting",
+      "label": "Checkbox Setting",
+      "default": true
+    },
+    {
+      "type": "radio",
+      "id": "radio-setting",
+      "label": "Radio Setting",
+      "default": "option-1",
+      "options": [
+        {
+          "value": "option-1",
+          "label": "Option 1"
+        },
+        {
+          "value": "option-2",
+          "label": "Option 2"
+        }
+      ]
+    },
+    {
+      "type": "color",
+      "label": "Color Setting",
+      "id": "color-setting",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color_background",
+      "label": "Color Background Setting",
+      "id": "color-background-setting"
+    },
+    {
+      "type": "image_picker",
+      "id": "image-picker-setting",
+      "label": "Image Picker Setting"
+    },
+    {
+      "type": "video",
+      "label": "Video Setting",
+      "id": "video-setting"
+    },
+    {
+      "type": "video_url",
+      "label": "Video URL Setting",
+      "id": "video-url-setting",
+      "accept": ["youtube"],
+      "placeholder": "Youtube URL"
+    },
+    {
+      "type": "url",
+      "id": "url-setting",
+      "label": "URL Setting"
+    },
+    {
+      "type": "html",
+      "label": "HTML Setting",
+      "id": "html-setting",
+      "placeholder": "<p>This is an HTML setting.</p>"
+    },
+    {
+      "type": "liquid",
+      "label": "Liquid Setting",
+      "id": "liquid-setting"
+    },
+    {
+      "type": "header",
+      "content": "Site Resources Settings",
+      "info": "Settings related to shopifies resources [Learn More](https://shopify.com)"
+    },
+    {
+      "type": "product",
+      "label": "Product Setting",
+      "id": "product-setting"
+    },
+    {
+      "type": "product_list",
+      "label": "Product List Setting",
+      "id": "product-list-setting",
+      "limit": 10
+    },
+    {
+      "type": "collection",
+      "label": "Collection Setting",
+      "id": "collection-setting"
+    },
+    {
+      "type": "collection_list",
+      "label": "Collection List Setting",
+      "id": "collection-list-setting",
+      "limit": 3
+    },
+    {
+      "type": "page",
+      "label": "Page Setting",
+      "id": "page-setting"
+    },
+    {
+      "type": "blog",
+      "label": "Blog Setting",
+      "id": "blog-setting"
+    },
+    {
+      "type": "article",
+      "label": "Article Setting",
+      "id": "article-setting"
+    },
+    {
+      "type": "link_list",
+      "label": "Link List Setting",
+      "id": "link-list-setting"
+    },
+    {
+      "type": "text_alignment",
+      "id": "text-alignment-setting",
+      "label": "Text Alignment Setting",
+      "default": "center"
+    },
+    {
+      "type": "font_picker",
+      "label": "Font Picker Setting",
+      "id": "font-picker-setting",
+      "default": "assistant_n4"
+    },
+    {
+      "type": "color_scheme",
+      "label": "Color Scheme Setting",
+      "id": "color-setting-setting",
+      "default": "Scheme-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "section_product",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "product",
+          "label": "Product",
+          "id": "product"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "info": "Optional. Will override the Product's Titl if defined."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Optional. Will override the Product's Image if defined."
+        }
+      ],
+      "limit": 4
+    },
+    {
+      "type": "section_collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "label": "Collection",
+          "id": "collection"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "info": "Optional. Will override the Collection's Title if defined."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Optional. Will override the Collection's Image if defined."
+        }
+      ],
+      "limit": 4
+    }
+  ],
+  "presets": [
+    {
+      "name": "Section Product Tutorial",
+      "settings": {
+        "text-setting": "Section Tutorial - Product Preset"
+      },
+      "blocks": [
+        {
+          "type": "section_product",
+          "settings": {
+            "product": "the-3p-fulfilled-snowboard"
+          }
+        },
+        {
+          "type": "section_product",
+          "settings": {
+            "product": "the-3p-fulfilled-snowboard",
+            "title": "Another Product"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Section Collection Tutorial",
+      "settings": {
+        "text-setting": "Section Tutorial - Collection Preset"
+      },
+      "blocks": [
+        {
+          "type": "section_collection",
+          "settings": {
+            "collection": "automated-collection"
+          }
+        },
+        {
+          "type": "section_collection",
+          "settings": {
+            "collection": "automated-collection",
+            "title": "Another Collection"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Section Mixed Tutorial",
+      "settings": {
+        "text-setting": "Section Tutorial - Mixed Preset"
+      },
+      "blocks": [
+        {
+          "type": "section_product",
+          "settings": {
+            "product": "the-3p-fulfilled-snowboard",
+            "title": "A Product"
+          }
+        },
+        {
+          "type": "section_collection",
+          "settings": {
+            "collection": "automated-collection",
+            "title": "A Collection"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
