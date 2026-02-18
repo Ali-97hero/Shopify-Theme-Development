@@ -1,0 +1,31 @@
+<div {{ block.shopify_attributes }} class="page-width">
+  {% assign featured_product = product %}
+  {% if section.settings.featured_product != blank %}
+    {% assign featured_product = section.settings.featured_product %}
+  {% endif %}
+  {% content_for 'blocks', closest.product: featured_product %}
+</div>
+{% schema %}
+{
+  "name": "Theme Practice Section",
+  "tag": "section",
+  "class": "theme-practice-section",
+  "blocks": [
+    {
+      "type": "@theme"
+    }
+  ],
+  "settings": [
+    {
+      "type": "product",
+      "label": "Featured Product",
+      "id": "featured_product"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Theme Practice Section"
+    }
+  ]
+}
+{% endschema %}

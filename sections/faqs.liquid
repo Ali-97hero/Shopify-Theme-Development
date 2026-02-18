@@ -1,0 +1,71 @@
+<div class="page-width">
+  <h3>{{ section.settings.title }}</h3>
+
+  {% for block in section.blocks %}
+    <details>
+      <summary>{{ block.settings.title }}</summary>
+      <div>{{ block.settings.answer }}</div>
+    </details>
+  {% endfor %}
+</div>
+{% schema %}
+{
+  "name": "FAQ's",
+  "settings": [
+    {
+      "type": "text",
+      "label": "Title",
+      "id": "title"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "label": "Title",
+          "id": "title"
+        },
+        {
+          "type": "richtext",
+          "label": "Answer",
+          "id": "answer"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ's",
+      "settings": {
+        "title": "Frequently Asked Questions"
+      },
+      "blocks": [
+        {
+          "type": "question",
+          "settings": {
+            "title": "Question 1",
+            "answer": "<p>Lorem Ipsum...</p> "
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "title": "Question 2",
+            "answer": "<p>Lorem Ipsum...</p> "
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "title": "Question 3",
+            "answer": "<p>Lorem Ipsum...</p> "
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

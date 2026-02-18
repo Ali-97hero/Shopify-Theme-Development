@@ -1,0 +1,18 @@
+<p {{ block.shopify_attributes }}>{{ block.settings.title }}</p>
+{% schema %}
+{
+  "name": "Practice Block",
+  "settings": [
+    {
+      "type": "text",
+      "label": "Title",
+      "id": "title"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Practice Block"
+    }
+  ]
+}
+{% endschema %}

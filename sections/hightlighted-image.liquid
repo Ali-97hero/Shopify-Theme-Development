@@ -1,0 +1,72 @@
+<style>
+  .heightlighted-image__text {
+    text-align: center;
+    padding: 5px;
+  }
+  .hightlighted-image__image {
+    height: 500px;
+    width: 100%;
+    object-fit: cover;
+  }
+  .hightlighted-image__button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 2rem;
+  }
+</style>
+
+<h2 class="heightlighted-image__text">{{ section.settings.text_setting }}</h2>
+{% if section.settings.image_picker_setting != blank %}
+  {{
+    section.settings.image_picker_setting
+    | image_url: width: 500, height: 500
+    | image_tag: class: 'hightlighted-image__image'
+  }}
+{% else %}
+  {{ 'hero-apparel-1' | placeholder_svg_tag: 'hightlighted-image__image' }}
+{% endif %}
+{% if section.settings.button_text != blank and section.settings.button_url != blank %}
+  <div class="hightlighted-image__button-container">
+    <a href="{{ section.settings.button_url }}" class="button">{{ section.settings.button_text }}</a>
+  </div>
+{% endif %}
+{% schema %}
+{
+  "name": "Hightlighted Image",
+  "settings": [
+    {
+      "type": "text",
+      "label": "Image Title",
+      "id": "text_setting",
+      "default": "Image Title"
+    },
+    {
+      "type": "image_picker",
+      "label": "Pick An Image",
+      "id": "image_picker_setting"
+    },
+    {
+      "type": "text",
+      "label": "Button Text",
+      "id": "button_text",
+      "default": "This is a Button"
+    },
+    {
+      "type": "url",
+      "label": "Button URL",
+      "id": "button_url"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hightlighted Image",
+      "settings": {
+        "button_text": "Learn More",
+        "button_url": "/"
+      }
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,70 @@
+<style>
+  .featured-product__title {
+    text-align: center;
+  }
+  .featured-product__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .featured-product__product-image {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+  }
+  .featured-product__product-title,
+  .featured-product__product-price,
+  .featured-product__product-vendor {
+    text-align: center;
+  }
+</style>
+<h3 class="featured-product__title">{{ section.settings.title }}</h3>
+<div class="featured-product__grid">
+  {% for product in section.settings.product_list %}
+    <div class="featured-product__product-container">
+      {{
+        product.featured_image
+        | image_url: width: 500, height: 500
+        | image_tag: class: 'featured-product__product-image'
+      }}
+      <h4 class="featured-product__product-title">{{ product.title }}</h4>
+      <h5 class="featured-product__product-price">{{ product.price | money_with_currency }}</h5>
+      <p class="featured-product__product-vendor">{{ product.vendor }}</p>
+    </div>
+  {% else %}
+    {% for i in (1..3) %}
+      <div class="featured-product__product-container">
+        {% assign placeholder_id = 'product-apparel-' | append: forloop.index %}
+        {{ placeholder_id | placeholder_svg_tag: 'featured-product__product-image' }}
+        <h4 class="featured-product__product-title">Example Product {{ forloop.index }}</h4>
+        <h5 class="featured-product__product-price">{{ 6500 | money_with_currency }}</h5>
+        <p class="featured-product__product-vendor">Example Vendor {{ forloop.index }}</p>
+      </div>
+    {% endfor %}
+  {% endfor %}
+</div>
+{% schema %}
+{
+  "name": "Featured Product",
+  "settings": [
+    {
+      "type": "text",
+      "label": "Title",
+      "id": "title"
+    },
+    {
+      "type": "product_list",
+      "label": "Product List",
+      "id": "product_list"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Product",
+      "settings": {
+        "title": "Featured Product"
+      }
+    }
+  ]
+}
+{% endschema %}

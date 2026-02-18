@@ -1,0 +1,46 @@
+{% for block in section.blocks %}
+  {% assign image = block.settings.image_picker_setting %}
+  {% if image %}
+    <div>
+      {{ image | image_url: width: 500, height: 500 | image_tag }}
+    </div>
+  {% endif %}
+  <p>
+    <p style="text-align: {{ block.settings.title_alignment_setting }};">{{ block.settings.text_setting }}</p>
+  </p>
+  <div>
+    {{ block.settings.richtext_setting }}
+  </div>
+{% endfor %}
+{% schema %}
+{
+  "name": "Portfolio Item",
+  "settings": [
+    {
+      "type": "image_picker",
+      "label": "Choose an image",
+      "id": "image_picker_setting"
+    },
+    {
+      "type": "text",
+      "label": "Title",
+      "id": "text_setting"
+    },
+    {
+      "type": "text_alignment",
+      "label": "Title Alignment",
+      "id": "title_alignment_setting"
+    },
+    {
+      "type": "richtext",
+      "label": "Description",
+      "id": "richtext_setting"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Portfolio Item"
+    }
+  ]
+}
+{% endschema %}

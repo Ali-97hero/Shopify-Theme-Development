@@ -1,0 +1,45 @@
+<div>
+  <p style="background-color: {{ section.settings.background_color_setting }}; color: {{ section.settings.color_setting }}; text-align: {{ section.settings.title_alignment_setting }};">
+    {{ section.settings.title_setting }}
+  </p>
+  {% content_for 'blocks' %}
+</div>
+{% schema %}
+{
+  "name": "Portfolio Section",
+  "tag": "section",
+  "class": "protfolio-section",
+  "settings": [
+    {
+      "type": "text",
+      "label": "Title",
+      "id": "title_setting"
+    },
+    {
+      "type": "text_alignment",
+      "label": "Title Alignment",
+      "id": "title_alignment_setting"
+    },
+    {
+      "type": "color",
+      "label": "Title Color",
+      "id": "color_setting"
+    },
+    {
+      "type": "color",
+      "label": "Background Color",
+      "id": "background_color_setting"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "_portfolio-item"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Portfolio Section"
+    }
+  ]
+}
+{% endschema %}
