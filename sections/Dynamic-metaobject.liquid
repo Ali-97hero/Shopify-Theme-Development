@@ -1,0 +1,24 @@
+{% if shop.metaobjects.craftsperson[section.settings.metaobject_title].name %}
+  <div {{ shopify_attributes }}>
+    <h1>Dynamic Metaobject</h1>
+    <p>{{ shop.metaobjects.craftsperson[section.settings.metaobject_title].name }}</p>
+    <p>{{ shop.metaobjects.craftsperson[section.settings.metaobject_title].bio | metafield_tag }}</p>
+  </div>
+{% endif %}
+{% schema %}
+{
+  "name": "Dynamic Metaobject",
+  "settings": [
+    {
+      "type": "text",
+      "label": "Metaobject Title",
+      "id": "metaobject_title"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Dynamic Metaobject"
+    }
+  ]
+}
+{% endschema %}

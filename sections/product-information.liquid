@@ -1,4 +1,52 @@
+{% comment %}
+  {% if product.metafields.custom.example_metafield %}
+    <h2>Example Metafield</h2>
+    <p>{{ product.metafields.custom.example_metafield }}</p>
+  {% endif %}
 
+  <h2>Product Metafield</h2>
+  {% assign metaProduct = product.metafields.custom.related_product.value %}
+  <p>{{ metaProduct.title }}</p>
+  <p>{{ metaProduct.price | money }}</p>
+{% endcomment %}
+{% comment %}
+  {% if product.metafields.custom.product_guide %}
+    <h2>Guide Metafield</h2>
+    {% assign metaGuide = product.metafields.custom.product_guide.value %}
+    <p>{{ metaGuide.url }}</p>
+  {% endif %}
+{% endcomment %}
+
+{% comment %}
+  <h2>Image Metafield</h2>
+  <p>{{ product.metafields.custom.product_image | image_url: width: 500, height: 500 | image_tag }}</p>
+{% endcomment %}
+
+{% comment %}
+  <h2>Date Metafield</h2>
+  <p>{{ product.metafields.custom.date_metafield.value | date: '%B %d, %Y' }}</p>
+
+  <h2>Weight Metafield</h2>
+  <p>{{ product.metafields.custom.weight_metafield.value.unit }}</p>
+
+  <h2>Richtext Metafield</h2>
+  <p>{{ product.metafields.custom.richtext_metafield | metafield_tag }}</p>
+
+  <h2>List Metafield</h2>
+  {% for item in product.metafields.custom.list_metafield.value %}
+    <p>
+      {{ item }}
+    </p>
+  {% endfor %}
+{% endcomment %}
+
+{% comment %}
+  {% if product.metafields.custom.mixed_reference_metafield.value.system.type == 'craftsperson' %}
+    <p>{{ product.metafields.custom.mixed_reference_metafield.value.name }}</p>
+  {% elsif product.metafields.custom.mixed_reference_metafield.value.system.type == 'mixed_ref_example' %}
+    <p>{{ product.metafields.custom.mixed_reference_metafield.value.system.type }}</p>
+  {% endif %}
+{% endcomment %}
 
 <script type="application/ld+json">
   {{ closest.product | structured_data }}
@@ -165,6 +213,7 @@
         </span>
       </button>
     </div>
+    {% comment %} {% render 'product-craftsperson', { product: product } %} {% endcomment %}
   </sticky-add-to-cart>
 {% endif %}
 

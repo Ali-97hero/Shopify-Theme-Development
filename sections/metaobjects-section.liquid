@@ -1,0 +1,46 @@
+{% if section.settings.makers.count > 0 %}
+  <h2>Metaobjects List</h2>
+  <p>{{ section.settings.makers.count }}</p>
+  {% for maker in section.settings.makers %}
+    <div class="page-width">
+      {{ maker.image | image_url: width: 500, height: 500 | image_tag }}
+      <p>{{ maker.name }}</p>
+      <div>
+        {{ maker.bio | metafield_tag }}
+      </div>
+    </div>
+  {% endfor %}
+{% endif %}
+{% for variant in section.settings.variants.value %}
+  <p>{{ variant.title }}</p>
+{% endfor %}
+{% schema %}
+{
+  "name": "Metaobjects Section",
+  "settings": [
+    {
+      "type": "metaobject",
+      "id": "maker",
+      "label": "Maker",
+      "metaobject_type": "maker"
+    },
+    {
+      "type": "metaobject_list",
+      "id": "makers",
+      "label": "Makers",
+      "metaobject_type": "maker"
+    },
+    {
+      "type": "metaobject_list",
+      "id": "variants",
+      "label": "Variants",
+      "metaobject_type": "variants_list"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Metaobjects Section"
+    }
+  ]
+}
+{% endschema %}

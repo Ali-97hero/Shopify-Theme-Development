@@ -1,0 +1,25 @@
+<h2>Dynamic Metafield</h2>
+{% assign key = 'example_metafield' %}
+{% comment %} <p>{{ product.metafields.custom[key] }}</p> {% endcomment %}
+{% if product.metafields.custom[section.settings.metafield_key] == 'rich_text_field' %}
+  <p>{{ product.metafields.custom[section.settings.metafield_key] | metafield_tag }}</p>
+{% else %}
+  <p>{{ product.metafields.custom[section.settings.metafield_key].value }}</p>
+{% endif %}
+{% schema %}
+{
+  "name": "Dynamic Metafield",
+  "settings": [
+    {
+      "type": "text",
+      "label": "Metafield Key",
+      "id": "metafield_key"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Dynamic Metafield"
+    }
+  ]
+}
+{% endschema %}

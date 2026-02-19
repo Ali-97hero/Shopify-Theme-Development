@@ -1,0 +1,9 @@
+{% if product.metafields.custom.craftsperson %}
+  {% assign craftsPerson = product.metafields.custom.craftsperson.value %}
+  <div style="page-width">
+    <h2>The Craftsperson: {{ craftsPerson.name }}</h2>
+    {{ craftsPerson.image | image_url: width: 500, height: 500 | image_tag }}
+    <div>{{ craftsPerson.bio | metafield_tag }}</div>
+  </div>
+  <a href="{{ product.metafields.custom.craftsperson.value.system.url }}">Visit Craftperson's page</a>
+{% endif %}
